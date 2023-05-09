@@ -1,7 +1,6 @@
 package com.example.activity
 
 import android.content.Intent
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,10 +8,18 @@ import android.widget.Button
 import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
+///
+    companion object {
+
+        const val MAIN_ACTIVITY = "MainActivity"
+        const val NUMBER_KEY = "number"
+    }
 
     // объявляет изменяемую перемунную, которую потому будем складывать
 
     private var number = 0
+
+    private var numberView: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         // находит textview и привязывает её к переменной
 
-        val numberView = findViewById<TextView>(R.id.numberView)
+        numberView = findViewById<TextView>(R.id.numberView)
 
         // проверяем, есть ли сохранённые состояния со значениями
 
@@ -28,16 +35,16 @@ class MainActivity : AppCompatActivity() {
 
             // если есть сохр. знач., тогда присваиваем их number
 
-            number = savedInstanceState.getInt("number")
+            number = savedInstanceState.getInt(NUMBER_KEY)
         }
 
         // связывает значение и textview
 
-        numberView.text = number.toString()
+        numberView?.text = number.toString()
 
         // делает лог create цикла
 
-        Log.d("MainActivity", "onCreate")
+        Log.d(MAIN_ACTIVITY, "onCreate")
 
         // переключение на новую активити через кнопку
 
@@ -50,57 +57,47 @@ class MainActivity : AppCompatActivity() {
             // создаём и запускаем интент
 
             val intent = Intent(this, SecondActivity::class.java)
-            intent.putExtra("number", number)
+            intent.putExtra(NUMBER_KEY, number)
             startActivity(intent)
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt("number", number)
+    override fun onRestoreInstanceState(state: Bundle) {
+        super.onRestoreInstanceState(state)
+        number = state.getInt(NUMBER_KEY)
+        numberView?.text = number.toString()
     }
 
-    // создаём функцию для фиксации изменений конфигурации
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        // прибавляем 1, если меняется конфигурация
-
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         number++
-
-        // обновляем значение number в textview
-
-        val numberView = findViewById<TextView>(R.id.numberView)
-        numberView.text = number.toString()
+        outState.putInt(NUMBER_KEY, number)
     }
 
     // логируем каждый жизненный цикл
 
     override fun onStart() {
-        super.onStart()
-        Log.d("MainActivity", "onStart")
+        super.onStart() // делается видимой
+        Log.d(MAIN_ACTIVITY, "onStart")
     }
 
     override fun onResume() {
-        super.onResume()
-        Log.d("MainActivity", "onResume")
+        super.onResume() // делается кликабельной
+        Log.d(MAIN_ACTIVITY, "onResume")
     }
 
     override fun onPause() {
-        super.onPause()
-        Log.d("MainActivity", "onPause")
+        super.onPause() // делается некликабельной
+        Log.d(MAIN_ACTIVITY, "onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("MainActivity", "onStop")
+        Log.d(MAIN_ACTIVITY, "onStop")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("MainActivity", "onDestroy")
+        Log.d(MAIN_ACTIVITY, "onDestroy")
     }
-
-
 }
