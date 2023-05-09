@@ -7,6 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SecondActivity : AppCompatActivity() {
 
+    companion object {
+
+        const val SECOND_ACTIVITY = "SecondActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -28,33 +33,33 @@ class SecondActivity : AppCompatActivity() {
 
         multiplication.text = mulNumber.toString()
 
-        Log.d("SecondActivity", "onCreate")
+        Log.d(SECOND_ACTIVITY, "onCreate")
     }
 
         // логируем каждый жизненный цикл
 
         override fun onStart() {
             super.onStart()
-            Log.d("SecondActivity","onStart")
+            Log.d(SECOND_ACTIVITY,"onStart")
         }
 
         override fun onResume() {
             super.onResume()
-            Log.d("SecondActivity","onResume")
+            Log.d(SECOND_ACTIVITY,"onResume")
         }
 
         override fun onPause() {
             super.onPause()
-            Log.d("SecondActivity","onPause")
+            Log.d(SECOND_ACTIVITY,"onPause")
         }
 
         override fun onStop() {
             super.onStop()
-            Log.d("SecondActivity","onStop")
+            Log.d(SECOND_ACTIVITY,"onStop")
         }
 
         override fun onDestroy() {
             super.onDestroy()
-            Log.d("SecondActivity","onDestroy")
+            Log.d(SECOND_ACTIVITY,"onDestroy")
     }
 }
